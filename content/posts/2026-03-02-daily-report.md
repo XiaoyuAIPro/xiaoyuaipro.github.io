@@ -3,9 +3,9 @@ title: "🤖 每日AI晚报 ｜ 2026年3月2日"
 date: 2026-03-02T18:00:00+08:00
 draft: false
 slug: "2026-03-02"
-description: "SK电信宣布以AI为核心重构公司业务、金融服务业AI应用已成“标配”"
-summary: "SK电信宣布以AI为核心重构公司业务、金融服务业AI应用已成“标配”"
-tags: ["AI晚报", "OpenAI", "LLM"]
+description: "中东冲突持续升级，欧盟酝酿应对措施、OpenAI承认与五角大楼的协议“仓促”"
+summary: "中东冲突持续升级，欧盟酝酿应对措施、OpenAI承认与五角大楼的协议“仓促”"
+tags: ["AI晚报", "OpenAI", "Claude", "Anthropic"]
 categories: ["AI晚报"]
 series: ["AI晚报"]
 cover:
@@ -20,43 +20,75 @@ TocOpen: false
 
 **今日看点：**
 
-- SK电信宣布以AI为核心重构公司业务
-- 金融服务业AI应用已成“标配”
-- OpenAI CEO承认与五角大楼的合作“仓促”
+- 中东冲突持续升级，欧盟酝酿应对措施
+- OpenAI承认与五角大楼的协议“仓促”
+- 金融服务业AI应用已成不可逆趋势
 
 ---
 
-### 一、 AI技术/产业动态
+### 一、 综合新闻
 
-#### 1. SK电信在MWC 2026宣布以AI为核心重构业务
-在巴塞罗那举行的世界移动通信大会上，SK电信详细阐述了其围绕人工智能重构公司的计划，从网络核心到客服中心进行全面改造。
+#### 1. 乌克兰将协助击落伊朗无人机
+自二战以来欧洲最大的冲突正在改变战争形态，其影响已波及当前的中东危机。
 
-> 📌 **点评：** 这标志着AI从“赋能工具”向“业务核心”的战略性转变，电信运营商正试图通过彻底的AI化来重塑其商业模式和竞争力。
-> 🔗 **来源：** [artificialintelligence-news.com](https://www.artificialintelligence-news.com/news/mwc-2026-sk-telecom-lays-out-plan-to-rebuild-its-core-around-ai/)
+> 📌 **点评：** 俄乌战场已成为新武器和新战术的试验场，其经验正被快速应用于其他地缘冲突，现代战争的“工具箱”正在被重构。
+> 🔗 **来源：** [Al Jazeera](https://www.aljazeera.com/news/2026/3/2/ukraine-to-help-down-irans-drones-how-russias-war-rewrites-the-playbook?traffic_source=rss)
 
-#### 2. 金融服务业AI应用已达“不可逆转”的普及点
-根据Finastra的报告，AI在金融服务领域的应用已近乎普及，那些仍将其视为实验的机构已成为少数派。
+#### 2. 欧盟考虑对中东冲突作出回应
+欧盟最高外交官警告局势不要进一步升级，塞浦路斯证实有两架无人机飞向英国空军基地。
 
-> 📌 **点评：** AI在金融业已从“差异化优势”变为“生存必需品”，行业竞争门槛被显著抬高，全面、深度的AI整合成为新的竞争焦点。
-> 🔗 **来源：** [artificialintelligence-news.com](https://www.artificialintelligence-news.com/news/ai-adoption-in-financial-services/)
+> 📌 **点评：** 冲突外溢风险加剧，欧洲正面临新一轮安全与难民危机压力，协调一致的应对策略成为考验。
+> 🔗 **来源：** [The Guardian](https://www.theguardian.com/world/live/2026/mar/02/eu-response-middle-east-conflict-evacuate-citizens-europe-live-latest-news)
 
-#### 3. 开源工具llmfit：根据系统资源自动适配LLM模型大小
-GitHub上出现了一个名为`llmfit`的开源工具，旨在根据用户系统的RAM、CPU和GPU资源，自动调整并适配合适大小的大型语言模型。
+#### 3. 黎巴嫩总理宣布禁止真主党军事活动
+在真主党对以色列发动袭击后，萨拉姆宣布该组织所有活动均为“非法”。
 
-> 📌 **点评：** 这解决了本地部署LLM时资源匹配的痛点，降低了使用门槛，是推动模型在边缘设备和普通硬件上普及的重要工具。
-> 🔗 **来源：** [GitHub](https://github.com/AlexsJones/llmfit)
+> 📌 **点评：** 此举旨在避免黎巴嫩被全面卷入地区战争，反映了中东各国政府在代理人战争与主权安全间的艰难平衡。
+> 🔗 **来源：** [Al Jazeera](https://www.aljazeera.com/news/2026/3/2/lebanese-pm-nawaf-salam-announces-ban-on-hezbollah-military-activities?traffic_source=rss)
 
-#### 4. 谷歌联手印度Airtel，加强RCS消息反垃圾过滤
-谷歌通过与印度电信运营商Airtel合作，将运营商级别的过滤功能集成到RCS（富通信服务）中，以加强对垃圾信息的防护。
+#### 4. 伊朗死亡人数达555人，美以袭击升级
+随着首都及其他地区报告更多袭击，平民死亡人数持续上升。
 
-> 📌 **点评：** 此举意在解决RCS在关键市场推广中的信任与安全问题，通过与本地运营商深度合作，是谷歌推广其消息生态系统的务实策略。
-> 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/google-looks-to-tackle-longstanding-rcs-spam-in-india-but-not-alone/)
+> 📌 **点评：** 冲突烈度与平民伤亡同步攀升，人道主义危机加剧，为国际社会的调停与干预带来更大紧迫性。
+> 🔗 **来源：** [Al Jazeera](https://www.aljazeera.com/news/2026/3/2/iran-death-toll-reaches-555-as-us-israel-escalate-attacks?traffic_source=rss)
 
-#### 5. OpenAI CEO承认与五角大楼的合作“仓促”且“观感不佳”
-OpenAI首席执行官萨姆·奥尔特曼承认，公司与美国国防部的合作协议“确实有些仓促”，并且“从外界看来，观感并不好”。
+#### 5. 美国FBI称得州酒吧枪击案“可能是恐怖主义行为”
+事件造成2人死亡、14人受伤，被部分媒体确认身份的嫌疑枪手也被击毙。
 
-> 📌 **点评：** 这反映了AI巨头在商业扩张与维护其“安全、有益”公共形象之间的持续张力，与政府/军方的合作正成为其必须谨慎处理的公关与伦理难题。
+> 📌 **点评：** 国内极端暴力事件与复杂的国际地缘冲突交织，使美国面临内外安全挑战并存的复杂局面。
+> 🔗 **来源：** [BBC](https://www.bbc.com/news/articles/cgjznzgly0po?at_medium=RSS&at_campaign=rss)
+
+### 二、 AI技术产业动态
+
+#### 1. OpenAI透露与五角大楼协议的更多细节
+OpenAI CEO承认，与美国国防部的协议“确实很仓促”，并且“观感不佳”。
+
+> 📌 **点评：** 这反映了AI巨头在商业扩张、国家安全需求与自身伦理准则之间的巨大张力，仓促的决策可能损害长期信任。
 > 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/openai-shares-more-details-about-its-agreement-with-the-pentagon/)
+
+#### 2. 金融服务业AI应用已达“不可逆转”的临界点
+AI在金融服务领域的应用已基本普及，那些仍将其视为实验的机构已成为少数派。
+
+> 📌 **点评：** AI从“创新试点”变为“核心基建”，标志着该行业数字化转型进入深水区，落后者的生存空间将被急剧压缩。
+> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/ai-adoption-in-financial-services/)
+
+#### 3. Anthropic的Claude因五角大楼争议登顶App Store
+Anthropic的聊天机器人Claude似乎从公司与五角大楼的紧张谈判所引发的关注中获益。
+
+> 📌 **点评：** 用户用下载投票，反映了市场对更强调安全、可控AI模型的偏好，地缘政治事件意外成为产品营销的催化剂。
+> 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/anthropics-claude-rises-to-no-2-in-the-app-store-following-pentagon-dispute/)
+
+#### 4. SK Telecom公布围绕AI重建核心业务的计划
+在巴塞罗那MWC上，SK Telecom阐述了其如何从网络核心到客服桌面全面围绕AI进行自我重塑。
+
+> 📌 **点评：** 电信运营商正从“管道提供商”向“AI原生服务商”激进转型，这代表了传统基础设施行业最彻底的AI化变革决心。
+> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/mwc-2026-sk-telecom-lays-out-plan-to-rebuild-its-core-around-ai/)
+
+#### 5. 谷歌寻求与Airtel合作解决印度RCS垃圾信息问题
+谷歌通过与Airtel的合作，将运营商级别的过滤功能集成到印度的RCS中，以加强反垃圾信息保护。
+
+> 📌 **点评：** 在推广富媒体通信服务（RCS）时，解决垃圾信息是赢得用户信任的关键一步，与本地运营商合作是务实之举。
+> 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/google-looks-to-tackle-longstanding-rcs-spam-in-india-but-not-alone/)
 
 ---
 
