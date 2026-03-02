@@ -1,0 +1,73 @@
+name: Hugo 构建 & 部署 GitHub Pages
+
+on:
+  # 每次向 main 分支推送时自动触发（包括晚报机器人的推送）
+  push:
+    branches:
+      - main
+  # 支持手动触发
+  workflow_dispatch:
+
+# 设置 GITHUB_TOKEN 权限，允许部署到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个部署任务运行，避免并发冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: 构建 Hugo 站点
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码（含子模块 PaperMod）
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: 安装 Hugo（扩展版，支持 SCSS）
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: 配置 GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: 构建站点
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+        run: |
+          hugo \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: 上传 Pages 产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    name: 部署到 GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: 部署
+        id: deployment
+        uses: actions/deploy-pages@v4
