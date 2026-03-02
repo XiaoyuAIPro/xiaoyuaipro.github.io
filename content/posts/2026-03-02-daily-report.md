@@ -1,100 +1,76 @@
 ---
-title: "🤖 每日AI晚报 ｜ 2026年3月2日"
+title: "🤖 每日AI晚报 ｜ 2026年03月02日"
 date: 2026-03-02T18:00:00+08:00
 draft: false
 slug: "2026-03-02"
-description: "OpenAI Orion 2 发布，美联储暗示软着陆成功，全球算力基建股迎来新一轮普涨。三分钟，带你洞悉全球 AI 前沿动态。"
-summary: "今日看点：OpenAI Orion 2 多模态推理模型发布；美联储暗示软着陆成功；东盟数字贸易协定签署..."
-tags: ["AI晚报", "OpenAI", "NVIDIA", "具身智能"]
+description: "今日共收录 9 条 AI 前沿资讯，涵盖技术突破、产业动态与学术研究。"
+summary: "今日共收录 9 条 AI 前沿资讯，涵盖技术突破、产业动态与学术研究。"
+tags: ["AI晚报", "OpenAI", "Claude", "Anthropic", "LLM"]
 categories: ["AI晚报"]
 series: ["AI晚报"]
 cover:
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200"
-    alt: "AI Future Technology"
+    alt: "AI Daily Report 2026-03-02"
     caption: "智启未来，始于今日"
     relative: false
 showToc: true
 TocOpen: false
 ---
+🤖 **每日AI晚报 ｜ 2026年03月02日**
 
-> ⚠️ **说明：** 本篇为站点初始演示内容，新闻条目为示例，不代表真实事件。从明日起，内容将由自动化系统每日采集真实资讯生成。
-
-🤖 **每日AI晚报 ｜ 2026年3月2日**
-
-今日看点：
-
-- 美联储暗示"软着陆"成功，全球算力基建股迎来新一轮普涨
-- OpenAI 正式发布 "Orion 2" 多模态推理模型，逻辑推理突破人类博士基准
-- 欧盟《AI法案》2.0修订版正式生效，针对"具身智能"提出更高安全要求
+> 今日共收录 **9** 条 AI 前沿资讯，来源覆盖 TechCrunch、VentureBeat、MIT TR 等主流媒体。
 
 ---
 
-### 一、 综合新闻
+### 一、 AI技术/产业动态
 
-#### 1. 美联储主席表示抗通胀任务基本完成，市场预期6月启动降息
-美联储最新经济展望指出，核心PCE已稳定在2.1%，暗示货币政策将进入"中性区间"。
+#### 1. Google looks to tackle longstanding RCS spam in India — but not alone
+Google is integrating carrier-level filtering into RCS in India through a partnership with Airtel to strengthen protections against spam.
 
-> 📌 **点评：** 宏观流动性的释放将直接利好高壁垒、高投入的硬科技领域，尤其是处于高压下的初创 AI 芯片企业。
-> 📰 **来源：** Reuters
+> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/google-looks-to-tackle-longstanding-rcs-spam-in-india-but-not-alone/)
 
-#### 2. 东盟数字自由贸易协定正式签署，覆盖超6亿人口
-包括新加坡、马来西亚、印尼在内的多个国家达成协议，将统一跨境电商税率与数据流动标准。
+#### 2. OpenAI reveals more details about its agreement with the Pentagon
+By CEO Sam Altman’s own admission, OpenAI’s deal with the Department of Defense was “definitely rushed,” and “the optics don’t look good.”
 
-> 📌 **点评：** 东南亚正成为全球互联网企业的"第二增长曲线"，统一的数字标准将极大降低中国出海企业的合规成本。
-> 📰 **来源：** Bloomberg
+> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/openai-shares-more-details-about-its-agreement-with-the-pentagon/)
 
-#### 3. 全球最大固态电池工厂在上海临港正式投产
-该工厂首期产能达20GWh，标志着高安全性、高能量密度的固态电池进入大规模商业化应用阶段。
+#### 3. Anthropic’s Claude rises to No. 1 in the App Store following Pentagon dispute
+Anthropic’s chatbot Claude seems to have benefited from the attention around the company’s fraught negotiations with the Pentagon.
 
-> 📌 **点评：** 能源密度的跃升不仅利好电车，更将解决机器人和移动终端长时间运行的"电量焦虑"，是具身智能的物理基础。
-> 📰 **来源：** 财新网
+> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/anthropics-claude-rises-to-no-2-in-the-app-store-following-pentagon-dispute/)
 
-#### 4. FIFA 全面启用三维骨架追踪 AI 裁判系统，彻底消除越位争议
-新系统实现毫秒级判罚，通过多角度摄像头实时重建球员骨架，并由 AI 自动判定越位线。
+#### 4. The trap Anthropic built for itself
+Anthropic, OpenAI, Google DeepMind and others have long promised to govern themselves responsibly. Now, in the absence of rules, there's not a lot to protect them.
 
-> 📌 **点评：** 竞技体育正成为计算机视觉技术的最佳竞技场，算法权威性正从实验室走向全球最高价值的赛场。
-> 📰 **来源：** ESPN
+> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/02/28/the-trap-anthropic-built-for-itself/)
 
-#### 5. 极地气旋席卷北半球，AI 智慧电网调度系统接受极端天气考验
-多国电力负荷创新高，绿色能源的调度稳定性受到严峻挑战，AI 预测系统表现备受关注。
+### 二、 综合新闻
 
-> 📌 **点评：** 极端天气频发，AI 驱动的智慧电网预测已不再是锦上添花，而是城市基础设施的刚需。
-> 📰 **来源：** The Guardian
+#### 1. MWC 2026: SK Telecom lays out plan to rebuild its core around AI
+At MWC 2026 in Barcelona, SK Telecom outlined how it is rebuilding itself around AI, from its network core to its customer service desks. The shift goes beyond adding new AI tools. It involves rewriting internal systems, expanding data centre capacity to the gigawatt scale, and upgrading its own lar
 
----
+> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/mwc-2026-sk-telecom-lays-out-plan-to-rebuild-its-core-around-ai/)
 
-### 二、 AI技术/产业动态
+#### 2. AI adoption in financial services has hit a point of no return
+AI adoption in financial services has effectively become universal–and the institutions still treating it as an experiment are now the outliers. According to Finastra&#8217;s Financial Services State of the Nation 2026 report, which surveyed 1,509 senior executives across 11 markets, only 2% of fina
 
-#### 1. OpenAI 发布 Orion 2，实现"慢思考"与"快反应"的完美融合
-新模型引入动态计算分配机制，处理复杂数学证明时通过强化学习增加思考步数，常识问答则保持低延迟。
+> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/ai-adoption-in-financial-services/)
 
-> 📌 **点评：** System 2 思维（慢思考）的工程化落地，标志着 AI 从"预测下一个词"彻底进化为"解决复杂逻辑问题"。
-> 📰 **来源：** [OpenAI Blog](https://openai.com/blog/)
+#### 3. If AI writes code, should the session be part of the commit?
+Article URL: https://github.com/mandel-macaque/memento Comments URL: https://news.ycombinator.com/item?id=47212355 Points: 274 # Comments: 252
 
-#### 2. NVIDIA 宣布 2nm 架构"Rubin"系列显卡提前量产
-受全球 AI Agent 爆发式需求影响，新一代显卡单位算力能效比提升了300%。
+> 🔗 **来源：** [Hacker News Top AI](https://github.com/mandel-macaque/memento)
 
-> 📌 **点评：** 算力成本的持续下降将让"万物皆有模型"成为可能，摩尔定律在先进封装技术加持下继续延伸。
-> 📰 **来源：** [NVIDIA](https://www.nvidia.com/)
+#### 4. Right-sizes LLM models to your system's RAM, CPU, and GPU
+Article URL: https://github.com/AlexsJones/llmfit Comments URL: https://news.ycombinator.com/item?id=47211830 Points: 156 # Comments: 34
 
-#### 3. 中国移动发布"算网一体"2.0，AI训练任务实现全国跨地域无缝流转
-通过超低延迟光网络，西部算力节点可实时承载东部城市的复杂微调（Fine-tuning）任务。
+> 🔗 **来源：** [Hacker News Top AI](https://github.com/AlexsJones/llmfit)
 
-> 📌 **点评：** "东数西算"进入2.0时代，从简单存储备份向实时分布式训练演进，大幅缓解沿海城市的电力压力。
-> 📰 **来源：** 中国移动官网
+#### 5. AI Made Writing Code Easier. It Made Being an Engineer Harder
+Article URL: https://www.ivanturkovic.com/2026/02/25/ai-made-writing-code-easier-engineering-harder/ Comments URL: https://news.ycombinator.com/item?id=47206824 Points: 383 # Comments: 301
 
-#### 4. DeepSeek 开源新系列模型，极致压缩技术引发开源社区热议
-通过"专家混合+权重共享"架构，在极小显存占用下达到千亿参数级性能水平。
-
-> 📌 **点评：** 极致的显存优化意味着 AI 将真正"平民化"，在单台消费级显卡上跑大模型不再是梦想。
-> 📰 **来源：** [DeepSeek GitHub](https://github.com/deepseek-ai)
-
-#### 5. 斯坦福研究团队提出"神经记忆网络"，解决大模型长文本遗忘问题
-该技术通过构建类似人类大脑长期记忆皮层的结构，使大模型能够记住更长时间跨度的上下文细节。
-
-> 📌 **点评：** 告别上下文窗口限制之争，转向结构化长效记忆，是 AI Agent 迈向"数字孪生"的关键一步。
-> 📰 **来源：** [arXiv](https://arxiv.org/)
+> 🔗 **来源：** [Hacker News Top AI](https://www.ivanturkovic.com/2026/02/25/ai-made-writing-code-easier-engineering-harder/)
 
 ---
 
-> 免责声明：本篇为演示内容，由人工创建。自动化运行后，每日晚报将由系统从真实 RSS 源采集并生成，所有链接均指向原始文章。
+> 免责声明：以上内容来自公开 RSS 源，由自动化脚本聚合，仅供参考。

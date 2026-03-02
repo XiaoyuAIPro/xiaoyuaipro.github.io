@@ -119,10 +119,14 @@ def is_ai_related(title: str, summary: str = "") -> bool:
 
 
 def clean_html(raw: str) -> str:
-    """移除 HTML 标签，返回纯文本"""
+    """移除 HTML 标签，返回纯文本；同时清理 HackerNews 的元数据行"""
     text = re.sub(r"<[^>]+>", "", raw or "")
+    # 清理 hnrss 特有的冗余元数据（Article URL / Comments URL / Points / # Comments）
+    text = re.sub(r"Article URL:.*?(?=Comments URL:|$)", "", text, flags=re.DOTALL)
+    text = re.sub(r"Comments URL:.*?(?=Points:|$)", "", text, flags=re.DOTALL)
+    text = re.sub(r"Points:\s*\d+.*", "", text, flags=re.DOTALL)
     text = re.sub(r"\s+", " ", text).strip()
-    return text[:300]  # 截取前 300 字符作摘要
+    return text[:300]
 
 
 def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:

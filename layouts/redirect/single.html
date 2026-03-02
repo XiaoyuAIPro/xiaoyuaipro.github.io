@@ -4,9 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>跳转中... | {{ site.Title }}</title>
-  {{/* 获取最新的一篇 posts 文章 */}}
-  {{ $posts := where site.RegularPages "Section" "posts" }}
-  {{ $latest := index ($posts | first 1) 0 }}
+  {{/* 按日期倒序取最新一篇 posts */}}
+  {{ $latest := index ((where site.RegularPages "Section" "posts").ByDate.Reverse) 0 }}
   {{ if $latest }}
   <meta http-equiv="refresh" content="0; url={{ $latest.Permalink }}">
   <script>window.location.replace("{{ $latest.Permalink }}");</script>
@@ -25,8 +24,7 @@
       gap: 16px;
     }
     .spinner {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border: 3px solid #333;
       border-top-color: #7c3aed;
       border-radius: 50%;
@@ -39,8 +37,7 @@
 <body>
   <div class="spinner"></div>
   <p>正在跳转到最新晚报...</p>
-  {{ $posts := where site.RegularPages "Section" "posts" }}
-  {{ $latest := index ($posts | first 1) 0 }}
+  {{ $latest := index ((where site.RegularPages "Section" "posts").ByDate.Reverse) 0 }}
   {{ if $latest }}
   <p><a href="{{ $latest.Permalink }}">{{ $latest.Title }}</a></p>
   {{ end }}
