@@ -66,7 +66,7 @@ DEFAULT_CLAUDE_MODEL      = "claude-3-5-sonnet-20241022"
 # ---------------------------------------------------------------------------
 
 RSS_FEEDS = [
-    # ── AI / 科技专项 ──────────────────────────────────────────
+    # ── AI / 科技专项（用于"AI技术/产业动态"）─────────────────
     {
         "name": "TechCrunch AI",
         "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
@@ -92,21 +92,31 @@ RSS_FEEDS = [
         "url": "https://www.artificialintelligence-news.com/feed/",
         "category": "AI技术/产业动态",
     },
-    # ── 综合新闻 ─────────────────────────────────────────────────
-    {
-        "name": "Reuters Technology",
-        "url": "https://feeds.reuters.com/reuters/technologyNews",
-        "category": "综合新闻",
-    },
-    {
-        "name": "BBC Technology",
-        "url": "http://feeds.bbci.co.uk/news/technology/rss.xml",
-        "category": "综合新闻",
-    },
     {
         "name": "Hacker News Top AI",
         "url": "https://hnrss.org/newest?q=AI+OR+LLM+OR+%22machine+learning%22&points=80",
         "category": "AI技术/产业动态",
+    },
+    # ── 综合新闻（全球热点，不限主题）────────────────────────────
+    {
+        "name": "Reuters World",
+        "url": "https://feeds.reuters.com/reuters/worldNews",
+        "category": "综合新闻",
+    },
+    {
+        "name": "BBC World",
+        "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "category": "综合新闻",
+    },
+    {
+        "name": "The Guardian World",
+        "url": "https://www.theguardian.com/world/rss",
+        "category": "综合新闻",
+    },
+    {
+        "name": "Al Jazeera",
+        "url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "category": "综合新闻",
     },
 ]
 
@@ -172,8 +182,9 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
             if not title or not link:
                 continue
 
-            # 综合新闻源：只保留 AI 相关内容
-            if category == "综合新闻" and not is_ai_related(title, summary):
+            # AI 分类：只保留 AI 相关内容
+            # 综合新闻：不过滤，保留所有全球热点
+            if category == "AI技术/产业动态" and not is_ai_related(title, summary):
                 continue
 
             # 解析发布时间
