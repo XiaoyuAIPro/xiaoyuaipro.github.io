@@ -3,35 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/categories/ai%E6%99%9A%E6%8A%A5/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/ai%E6%99%9A%E6%8A%A5/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/anthropic/</loc>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/claude/</loc>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/openai/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/%E6%91%A9%E5%B0%94%E5%AE%9A%E5%BE%8B/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/2026-03-02-daily-report/</loc>
-    <lastmod>2026-03-02T15:47:49+08:00</lastmod>
+    <loc>http://localhost:1313/posts/2026-03-02/</loc>
+    <lastmod>2026-03-02T18:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/archives/</loc>
   </url><url>
     <loc>http://localhost:1313/search/</loc>
+  </url><url>
+    <loc>http://localhost:1313/latest/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
   </url>

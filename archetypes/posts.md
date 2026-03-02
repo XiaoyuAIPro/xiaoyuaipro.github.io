@@ -11,7 +11,7 @@ series: ["AI晚报"]
 cover:
     image: "https://source.unsplash.com/featured/?artificial-intelligence,robot"
     alt: "AI Daily Report"
-    caption: "智启未来，始于今日"
+    caption: "小宇AI"
     relative: false
     hidden: false # 不仅在详情页显示，在列表页也显示
 # 目录配置

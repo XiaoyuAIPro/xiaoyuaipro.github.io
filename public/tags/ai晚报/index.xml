@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>AI晚报 on 小宇AI | 智启未来</title>
+    <title>AI晚报 on 小宇AI</title>
     <link>http://localhost:1313/tags/ai%E6%99%9A%E6%8A%A5/</link>
-    <description>Recent content in AI晚报 on 小宇AI | 智启未来</description>
+    <description>Recent content in AI晚报 on 小宇AI</description>
     <generator>Hugo -- 0.157.0</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 02 Mar 2026 15:47:49 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Mar 2026 18:00:00 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/ai%E6%99%9A%E6%8A%A5/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🤖 每日AI晚报 ｜ 2026年3月2日</title>
-      <link>http://localhost:1313/posts/2026-03-02-daily-report/</link>
-      <pubDate>Mon, 02 Mar 2026 15:47:49 +0800</pubDate>
-      <guid>http://localhost:1313/posts/2026-03-02-daily-report/</guid>
-      <description>🤖 OpenAI Orion 2 发布，美联储软着陆，全球算力基建股迎来新一轮普涨。三分钟，带你洞悉全球 AI 前沿动态。</description>
+      <link>http://localhost:1313/posts/2026-03-02/</link>
+      <pubDate>Mon, 02 Mar 2026 18:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2026-03-02/</guid>
+      <description>中东冲突持续升级，欧盟酝酿应对措施、OpenAI承认与五角大楼的协议“仓促”</description>
     </item>
   </channel>
 </rss>

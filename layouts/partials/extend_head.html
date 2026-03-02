@@ -1,0 +1,22 @@
+{{- /* Head custom content area start */ -}}
+{{- /*     Insert any custom code (web-analytics, resources, etc.) - it will appear in the <head></head> section of every page. */ -}}
+{{- /*     Can be overwritten by partial with the same name in the global layouts. */ -}}
+
+{{ if .IsHome }}
+{{ $latest := index (where site.RegularPages "Type" "posts") 0 }}
+{{ if $latest }}
+<script>
+    (function() {
+        const isInternalReferrer = document.referrer && document.referrer.indexOf(location.hostname) !== -1;
+        const hasRedirected = sessionStorage.getItem('has_redirected_to_latest');
+        
+        if (!isInternalReferrer && !hasRedirected) {
+            sessionStorage.setItem('has_redirected_to_latest', 'true');
+            window.location.replace("{{ $latest.RelPermalink }}");
+        }
+    })();
+</script>
+{{ end }}
+{{ end }}
+
+{{- /* Head custom content area end */ -}}

@@ -1,0 +1,211 @@
+/* -------------------------------------------------------------------------
+   Custom CSS for PaperMod - Modern & Professional AI News Style
+   ------------------------------------------------------------------------- */
+
+/* 1. Global Typography & Spacing */
+:root {
+    --radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    letter-spacing: 0.01em;
+    line-height: 1.7;
+    background-image: radial-gradient(circle at top right, rgba(0, 122, 255, 0.03) 0%, transparent 40%), radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.03) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+.dark body {
+    background-image: radial-gradient(circle at top right, rgba(79, 172, 254, 0.05) 0%, transparent 40%), radial-gradient(circle at bottom left, rgba(0, 242, 254, 0.05) 0%, transparent 40%);
+}
+
+/* 2. Header & Navigation */
+.header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: var(--theme);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.dark .header {
+    background: rgba(29, 30, 32, 0.8);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.logo a {
+    font-weight: 800;
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: var(--transition);
+}
+
+.dark .logo a {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo a:hover {
+    opacity: 0.8;
+}
+
+/* 3. Home Info (Welcome Section) */
+.first-entry {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 40px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+}
+
+.first-entry:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.first-entry .entry-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dark .first-entry .entry-header h1 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.first-entry .entry-content {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    line-height: 1.8;
+}
+
+/* 4. Post List Cards (Homepage & Archives) */
+.post-entry {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: var(--transition);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.post-entry:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    border-color: #007AFF;
+}
+
+.dark .post-entry:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    border-color: #4facfe;
+}
+
+.post-entry .entry-header h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.post-entry:hover .entry-header h2 {
+    color: #007AFF;
+}
+
+.dark .post-entry:hover .entry-header h2 {
+    color: #4facfe;
+}
+
+.post-entry .entry-content {
+    color: var(--secondary);
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+/* 5. Images & Media */
+img {
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.post-entry img {
+    margin-bottom: 16px;
+}
+
+/* 6. Buttons & Links */
+.button, .button-inner {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.button:hover, .button-inner:hover {
+    transform: scale(1.05);
+}
+
+/* 7. Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--theme);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+/* 8. Single Post Enhancements */
+.post-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.post-content {
+    font-size: 1.1rem;
+}
+
+.post-content h2, .post-content h3 {
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.post-content p {
+    margin-bottom: 1.5em;
+}
+
+/* Code block styling */
+.highlight {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 9. Footer */
+.footer {
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    padding: 40px 0;
+}

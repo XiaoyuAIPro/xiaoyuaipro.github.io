@@ -1,6 +1,6 @@
 baseURL = 'https://xiaoyuaipro.github.io/'
 languageCode = 'zh-cn'
-title = '小宇AI | 智启未来'
+title = '小宇AI'
 theme = "PaperMod"
 
 # 分页：每页显示 10 篇
@@ -31,11 +31,11 @@ paginate = 10
         hiddenInSingle = false
         responsiveImages = true   # 自动生成多分辨率，移动端加载更快
 
-    # 首页：个人门户模式
+    # 首页：个人门户模式 -> 改为首页信息+文章列表模式
     [params.profileMode]
         enabled = true
-        title = "小宇AI晚报"
-        subtitle = "🤖 每天三分钟，同步全球 AI 最前沿资讯 | 智启未来，始于今日"
+        title = "小宇AI"
+        subtitle = "🤖 每天三分钟，同步全球 AI 最前沿资讯"
         imageUrl = "https://img.icons8.com/fluency/240/artificial-intelligence.png"
         imageWidth = 120
         imageHeight = 120
@@ -47,16 +47,6 @@ paginate = 10
             name = "📚 历史归档"
             url = "/archives/"
 
-    # 社交图标
-    [[params.socialIcons]]
-        name = "github"
-        url = "https://github.com/xiaoyuaipro"
-    [[params.socialIcons]]
-        name = "twitter"
-        url = "https://x.com/xiaoyuaipro"
-    [[params.socialIcons]]
-        name = "rss"
-        url = "/index.xml"
 
 # 导航栏
 [[menu.main]]

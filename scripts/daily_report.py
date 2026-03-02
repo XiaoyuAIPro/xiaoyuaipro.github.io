@@ -550,7 +550,7 @@ def render_markdown(date_obj: datetime.date, data: dict) -> str:
         cover:
             image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200"
             alt: "AI Daily Report {file_date}"
-            caption: "智启未来，始于今日"
+            caption: "小宇AI"
             relative: false
         showToc: true
         TocOpen: false
@@ -612,7 +612,7 @@ def render_markdown_fallback(date_obj: datetime.date, raw_content: str) -> str:
         cover:
             image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200"
             alt: "AI Daily Report {file_date}"
-            caption: "智启未来，始于今日"
+            caption: "小宇AI"
             relative: false
         showToc: true
         TocOpen: false
