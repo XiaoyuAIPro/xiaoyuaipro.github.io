@@ -1,11 +1,11 @@
 ---
-title: "🤖 每日AI晚报 ｜ 2026年03月02日"
+title: "🤖 每日AI晚报 ｜ 2026年3月2日"
 date: 2026-03-02T18:00:00+08:00
 draft: false
 slug: "2026-03-02"
-description: "今日共收录 9 条 AI 前沿资讯，涵盖技术突破、产业动态与学术研究。"
-summary: "今日共收录 9 条 AI 前沿资讯，涵盖技术突破、产业动态与学术研究。"
-tags: ["AI晚报", "OpenAI", "Claude", "Anthropic", "LLM"]
+description: "SK电信宣布以AI为核心重构公司业务、金融服务业AI应用已成常态"
+summary: "SK电信宣布以AI为核心重构公司业务、金融服务业AI应用已成常态"
+tags: ["AI晚报", "OpenAI", "LLM"]
 categories: ["AI晚报"]
 series: ["AI晚报"]
 cover:
@@ -16,61 +16,48 @@ cover:
 showToc: true
 TocOpen: false
 ---
-🤖 **每日AI晚报 ｜ 2026年03月02日**
+🤖 **每日AI晚报 ｜ 2026年3月2日**
 
-> 今日共收录 **9** 条 AI 前沿资讯，来源覆盖 TechCrunch、VentureBeat、MIT TR 等主流媒体。
+**今日看点：**
+
+- SK电信宣布以AI为核心重构公司业务
+- 金融服务业AI应用已成常态
+- OpenAI首次详谈与五角大楼的合作细节
 
 ---
 
 ### 一、 AI技术/产业动态
 
-#### 1. Google looks to tackle longstanding RCS spam in India — but not alone
-Google is integrating carrier-level filtering into RCS in India through a partnership with Airtel to strengthen protections against spam.
+#### 1. SK电信在MWC 2026宣布以AI为核心重构公司
+在巴塞罗那举行的世界移动通信大会上，SK电信详细阐述了其围绕人工智能重构公司的计划，涉及从网络核心到客户服务台的全面改造。
 
-> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/google-looks-to-tackle-longstanding-rcs-spam-in-india-but-not-alone/)
+> 📌 **点评：** 这标志着电信运营商正从“使用AI工具”向“成为AI公司”进行根本性转型，AI正成为其基础设施和业务逻辑的核心。
+> 🔗 **来源：** [artificialintelligence-news.com](https://www.artificialintelligence-news.com/news/mwc-2026-sk-telecom-lays-out-plan-to-rebuild-its-core-around-ai/)
 
-#### 2. OpenAI reveals more details about its agreement with the Pentagon
-By CEO Sam Altman’s own admission, OpenAI’s deal with the Department of Defense was “definitely rushed,” and “the optics don’t look good.”
+#### 2. 金融服务业AI应用已过“临界点”，成为普遍现象
+根据Finastra的报告，AI在金融服务领域的应用已变得普遍，那些仍将其视为实验的机构已成为少数派。
 
-> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/openai-shares-more-details-about-its-agreement-with-the-pentagon/)
+> 📌 **点评：** AI在金融业已从“创新试点”进入“生产必备”阶段，未能规模化应用AI的机构将面临巨大的竞争劣势。
+> 🔗 **来源：** [artificialintelligence-news.com](https://www.artificialintelligence-news.com/news/ai-adoption-in-financial-services/)
 
-#### 3. Anthropic’s Claude rises to No. 1 in the App Store following Pentagon dispute
-Anthropic’s chatbot Claude seems to have benefited from the attention around the company’s fraught negotiations with the Pentagon.
+#### 3. OpenAI披露与五角大楼合作协议更多细节
+OpenAI CEO萨姆·奥特曼承认，与国防部的合作“肯定很仓促”，并且“观感不佳”。公司首次分享了该协议的更多具体信息。
 
-> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/03/01/anthropics-claude-rises-to-no-2-in-the-app-store-following-pentagon-dispute/)
+> 📌 **点评：** 这反映了AI巨头在商业利益、国家安全与伦理原则之间的艰难平衡，透明度是建立公众信任的关键一步。
+> 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/openai-shares-more-details-about-its-agreement-with-the-pentagon/)
 
-#### 4. The trap Anthropic built for itself
-Anthropic, OpenAI, Google DeepMind and others have long promised to govern themselves responsibly. Now, in the absence of rules, there's not a lot to protect them.
+#### 4. 谷歌联手印度Airtel，加强RCS消息反垃圾过滤
+谷歌通过与印度电信运营商Airtel合作，将运营商级别的过滤功能集成到RCS（富通信服务）中，以加强对垃圾信息的防护。
 
-> 🔗 **来源：** [TechCrunch AI](https://techcrunch.com/2026/02/28/the-trap-anthropic-built-for-itself/)
+> 📌 **点评：** 这是谷歌在关键市场推动RCS普及的重要举措，通过与本地运营商深度合作解决实际痛点，是技术落地的有效路径。
+> 🔗 **来源：** [TechCrunch](https://techcrunch.com/2026/03/01/google-looks-to-tackle-longstanding-rcs-spam-in-india-but-not-alone/)
 
-### 二、 综合新闻
+#### 5. 开源工具llmfit：根据系统资源自动调整LLM模型大小
+GitHub上出现了一个名为“llmfit”的开源项目，旨在根据用户系统的RAM、CPU和GPU资源，自动调整大型语言模型的大小以优化运行。
 
-#### 1. MWC 2026: SK Telecom lays out plan to rebuild its core around AI
-At MWC 2026 in Barcelona, SK Telecom outlined how it is rebuilding itself around AI, from its network core to its customer service desks. The shift goes beyond adding new AI tools. It involves rewriting internal systems, expanding data centre capacity to the gigawatt scale, and upgrading its own lar
-
-> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/mwc-2026-sk-telecom-lays-out-plan-to-rebuild-its-core-around-ai/)
-
-#### 2. AI adoption in financial services has hit a point of no return
-AI adoption in financial services has effectively become universal–and the institutions still treating it as an experiment are now the outliers. According to Finastra&#8217;s Financial Services State of the Nation 2026 report, which surveyed 1,509 senior executives across 11 markets, only 2% of fina
-
-> 🔗 **来源：** [AI News](https://www.artificialintelligence-news.com/news/ai-adoption-in-financial-services/)
-
-#### 3. If AI writes code, should the session be part of the commit?
-Article URL: https://github.com/mandel-macaque/memento Comments URL: https://news.ycombinator.com/item?id=47212355 Points: 274 # Comments: 252
-
-> 🔗 **来源：** [Hacker News Top AI](https://github.com/mandel-macaque/memento)
-
-#### 4. Right-sizes LLM models to your system's RAM, CPU, and GPU
-Article URL: https://github.com/AlexsJones/llmfit Comments URL: https://news.ycombinator.com/item?id=47211830 Points: 156 # Comments: 34
-
-> 🔗 **来源：** [Hacker News Top AI](https://github.com/AlexsJones/llmfit)
-
-#### 5. AI Made Writing Code Easier. It Made Being an Engineer Harder
-Article URL: https://www.ivanturkovic.com/2026/02/25/ai-made-writing-code-easier-engineering-harder/ Comments URL: https://news.ycombinator.com/item?id=47206824 Points: 383 # Comments: 301
-
-> 🔗 **来源：** [Hacker News Top AI](https://www.ivanturkovic.com/2026/02/25/ai-made-writing-code-easier-engineering-harder/)
+> 📌 **点评：** 这类工具降低了AI模型本地部署的门槛，让资源有限的开发者或中小企业也能高效利用前沿模型，推动了AI的普惠化。
+> 🔗 **来源：** [GitHub](https://github.com/AlexsJones/llmfit)
 
 ---
 
-> 免责声明：以上内容来自公开 RSS 源，由自动化脚本聚合，仅供参考。
+> 免责声明：以上内容由 AI 基于真实 RSS 数据生成，链接均来自原始报道，仅供参考，不构成投资建议。
