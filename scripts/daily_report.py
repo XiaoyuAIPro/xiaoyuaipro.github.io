@@ -5,29 +5,30 @@
 架构（四步流程）：
 
   Step 1 — RSS 真实数据采集
-    从多个权威媒体 RSS 源抓取当日新闻（综合热点 + AI 动态）
-    每条文章保留真实可点击的原文链接
+    三个分类独立采集：
+      • AI技术/产业动态  → TechCrunch / VentureBeat / The Verge / MIT TR 等
+      • 国际综合新闻     → BBC World / Guardian / Al Jazeera / CNN 等
+      • 国内综合新闻     → China Daily / SCMP China / 36氪 / 虎嗅 等
 
   Step 2 — DeepSeek 中文写作
-    将 RSS 原文 + scripts/prompt.md 风格要求发给 DeepSeek
-    生成符合 prompt 要求的高质量中文晚报正文
+    将三分类 RSS 原文 + scripts/prompt.md 风格要求发给 DeepSeek
+    生成包含 AI动态5条 + 国际新闻5条 + 国内新闻5条 的中文晚报
 
   Step 3 — 格式标准化
-    将正文再次发给 DeepSeek，转为严格 JSON 结构
-    保证每次生成的 Hugo 文件格式完全一致
+    将正文再次发给 DeepSeek，转为严格 JSON 结构（三个 category 对象）
 
   Step 4 — 渲染输出
     将 JSON 渲染为带 Hugo front matter 的 Markdown 文件
     写入 content/posts/YYYY-MM-DD-daily-report.md
 
 所需环境变量：
-  DEEPSEEK_API_KEY   必填，DeepSeek 官方 API Key
+  DEEPSEEK_API_KEY   必填
   DEEPSEEK_MODEL     可选，默认 deepseek-chat
-  DEEPSEEK_BASE_URL  可选，默认 https://api.deepseek.com（兼容硅基流动等）
+  DEEPSEEK_BASE_URL  可选，默认 https://api.deepseek.com
 
-备用（任一可用即触发）：
-  ANTHROPIC_API_KEY  Claude API Key
-  GEMINI_API_KEY     Gemini API Key
+备用 LLM（任一可用即触发）：
+  ANTHROPIC_API_KEY  Claude
+  GEMINI_API_KEY     Gemini
 
 使用方法：
   DEEPSEEK_API_KEY=sk-xxx python scripts/daily_report.py
@@ -69,6 +70,12 @@ DEFAULT_DEEPSEEK_MODEL    = "deepseek-chat"
 DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com"
 DEFAULT_CLAUDE_MODEL      = "claude-3-5-sonnet-20241022"
 
+# 分类定义（顺序即最终晚报展示顺序）
+CATEGORY_AI       = "AI技术/产业动态"
+CATEGORY_INTL     = "国际综合新闻"
+CATEGORY_DOMESTIC = "国内综合新闻"
+CATEGORY_ORDER    = [CATEGORY_AI, CATEGORY_INTL, CATEGORY_DOMESTIC]
+
 # ---------------------------------------------------------------------------
 # RSS 数据源
 # ---------------------------------------------------------------------------
@@ -78,57 +85,85 @@ RSS_FEEDS = [
     {
         "name": "TechCrunch AI",
         "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
     {
         "name": "VentureBeat AI",
         "url": "https://venturebeat.com/ai/feed/",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
     {
         "name": "The Verge AI",
         "url": "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
     {
         "name": "MIT Technology Review",
         "url": "https://www.technologyreview.com/feed/",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
     {
         "name": "AI News",
         "url": "https://www.artificialintelligence-news.com/feed/",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
     {
         "name": "Hacker News Top AI",
         "url": "https://hnrss.org/newest?q=AI+OR+LLM+OR+%22machine+learning%22&points=80",
-        "category": "AI技术/产业动态",
+        "category": CATEGORY_AI,
     },
-    # ── 综合新闻（全球热点，不做主题过滤）───────────────────────────
+    # ── 国际综合新闻 ──────────────────────────────────────────────
     {
         "name": "BBC World",
         "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
-        "category": "综合新闻",
+        "category": CATEGORY_INTL,
     },
     {
         "name": "The Guardian World",
         "url": "https://www.theguardian.com/world/rss",
-        "category": "综合新闻",
+        "category": CATEGORY_INTL,
     },
     {
         "name": "Al Jazeera",
         "url": "https://www.aljazeera.com/xml/rss/all.xml",
-        "category": "综合新闻",
+        "category": CATEGORY_INTL,
     },
     {
         "name": "CNN World",
         "url": "http://rss.cnn.com/rss/edition_world.rss",
-        "category": "综合新闻",
+        "category": CATEGORY_INTL,
+    },
+    # ── 国内综合新闻 ──────────────────────────────────────────────
+    # 以下源从 GitHub Actions（海外服务器）抓取，部分可能因网络访问受限而失败，
+    # 脚本会自动跳过失败的源，并将 DeepSeek 作为内容生成的兜底。
+    {
+        "name": "China Daily",
+        "url": "http://www.chinadaily.com.cn/rss/china_rss.xml",
+        "category": CATEGORY_DOMESTIC,
+    },
+    {
+        "name": "SCMP China",
+        "url": "https://www.scmp.com/rss/2/feed",
+        "category": CATEGORY_DOMESTIC,
+    },
+    {
+        "name": "Caixin Global",
+        "url": "https://www.caixinglobal.com/rss/all_stories.xml",
+        "category": CATEGORY_DOMESTIC,
+    },
+    {
+        "name": "36氪",
+        "url": "https://36kr.com/feed",
+        "category": CATEGORY_DOMESTIC,
+    },
+    {
+        "name": "虎嗅",
+        "url": "https://www.huxiu.com/rss/0.xml",
+        "category": CATEGORY_DOMESTIC,
     },
 ]
 
-# AI 关键词（仅用于 AI 分类的内容过滤）
+# AI 关键词（仅用于 AI 分类内容过滤，其他分类不过滤）
 AI_KEYWORDS = [
     "AI", "artificial intelligence", "machine learning", "deep learning",
     "LLM", "large language model", "GPT", "Claude", "Gemini", "DeepSeek",
@@ -162,12 +197,12 @@ def clean_html(raw: str) -> str:
 
 def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
     """
-    从所有 RSS 源抓取文章，返回按分类分组的字典。
-    AI 分类：用关键词过滤，只保留 AI 相关内容。
-    综合新闻：不过滤，保留所有全球热点。
+    从所有 RSS 源抓取文章，返回按分类分组的有序字典。
+    分类顺序：AI技术/产业动态 → 国际综合新闻 → 国内综合新闻
     """
     cutoff = datetime.datetime.now(BEIJING_TZ) - datetime.timedelta(hours=max_age_hours)
-    categorized: dict[str, list[dict]] = {}
+    # 按预定顺序初始化，保证输出顺序稳定
+    categorized: dict[str, list[dict]] = {cat: [] for cat in CATEGORY_ORDER}
 
     for feed_cfg in RSS_FEEDS:
         name     = feed_cfg["name"]
@@ -191,8 +226,8 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
             if not title or not link:
                 continue
 
-            # AI 分类：关键词过滤；综合新闻：不过滤
-            if category == "AI技术/产业动态" and not is_ai_related(title, summary):
+            # 只对 AI 分类做关键词过滤；国际/国内综合新闻不过滤
+            if category == CATEGORY_AI and not is_ai_related(title, summary):
                 continue
 
             # 解析发布时间
@@ -206,7 +241,7 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
             if pub_time < cutoff:
                 continue
 
-            categorized.setdefault(category, []).append({
+            categorized[category].append({
                 "title":    title,
                 "link":     link,
                 "summary":  summary,
@@ -217,9 +252,10 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
 
         print(f"✅ {count} 条")
 
-    # 去重 + 按时间倒序 + 限量
+    # 每分类去重 + 按时间倒序 + 限量
     result: dict[str, list[dict]] = {}
-    for cat, articles in categorized.items():
+    for cat in CATEGORY_ORDER:
+        articles = categorized.get(cat, [])
         seen: set[str] = set()
         unique = []
         for a in sorted(articles, key=lambda x: x["pub_time"], reverse=True):
@@ -227,7 +263,8 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
             if key not in seen:
                 seen.add(key)
                 unique.append(a)
-        result[cat] = unique[:MAX_ITEMS_PER_CATEGORY]
+        if unique:  # 只保留有内容的分类
+            result[cat] = unique[:MAX_ITEMS_PER_CATEGORY]
 
     return result
 
@@ -240,13 +277,12 @@ def load_style_guidelines() -> str:
     """读取 scripts/prompt.md，去除执行指令，只保留风格/内容规范"""
     if PROMPT_FILE.exists():
         raw = PROMPT_FILE.read_text(encoding="utf-8").strip()
-        # 去掉"执行流程"和"现在开始执行"等指令性内容
         raw = re.sub(r"## 四、执行流程.*", "", raw, flags=re.DOTALL).strip()
         raw = re.sub(r"现在开始执行[。.]?\s*$", "", raw).strip()
         print(f"    ✅ prompt.md 已加载（{len(raw)} 字符）")
         return raw
     print("    ⚠️  未找到 scripts/prompt.md，使用默认风格")
-    return "请以简洁专业的风格生成内容，每条包含标题、摘要（1-2句）和点评（1-2句）。"
+    return "请以简洁专业的风格生成三个板块：AI技术/产业动态、国际综合新闻、国内综合新闻，每板块5条，每条含标题、摘要和点评。"
 
 
 WRITING_SYSTEM_TEMPLATE = """\
@@ -257,23 +293,32 @@ WRITING_SYSTEM_TEMPLATE = """\
 ---
 
 补充规则（优先级高于上述规范）：
-1. 你将收到今日从权威媒体 RSS 采集的真实新闻（英文原文）
+1. 你将收到今日从权威媒体 RSS 采集的真实新闻（含英文和中文原文）
 2. 请基于这些真实内容撰写中文晚报，不要凭空捏造任何新闻
 3. 每条新闻必须在正文中保留原始链接，格式：🔗 来源：[媒体名](链接)
-4. 综合新闻从"综合新闻"分类中选最重要的 5 条；AI 动态从"AI技术/产业动态"中选最重要的 5 条
-5. 直接输出 Markdown 格式正文，不要有任何解释说明
+4. 严格按以下顺序输出三个板块：
+   - 第一板块：AI技术/产业动态（从"AI技术/产业动态"分类中选5条）
+   - 第二板块：国际综合新闻（从"国际综合新闻"分类中选5条）
+   - 第三板块：国内综合新闻（从"国内综合新闻"分类中选5条）
+5. 若某分类的 RSS 数据不足5条，则基于已有数据撰写，不足部分可用 DeepSeek 训练知识中的近期同类新闻补充，但须标注"（知识截止）"
+6. 直接输出 Markdown 格式正文，不要有任何解释说明
 """
 
 
 def generate_report_from_rss(articles: dict[str, list[dict]], date_obj: datetime.date) -> Optional[str]:
-    """Step 2：将 RSS 文章 + prompt 风格发给 LLM，生成中文晚报原文"""
+    """Step 2：将三分类 RSS 文章 + prompt 风格发给 LLM，生成中文晚报"""
     style = load_style_guidelines()
     system_prompt = WRITING_SYSTEM_TEMPLATE.format(style_guidelines=style)
 
     date_str = date_obj.strftime("%Y年%-m月%-d日")
-    user_msg = f"今天是 {date_str}。以下是今日采集的真实新闻，请据此撰写晚报：\n\n"
+    user_msg = f"今天是 {date_str}。以下是今日采集的真实新闻，请据此撰写三板块晚报：\n\n"
 
-    for cat, items in articles.items():
+    # 按预定顺序输出，确保 LLM 看到有序输入
+    for cat in CATEGORY_ORDER:
+        items = articles.get(cat, [])
+        if not items:
+            user_msg += f"## {cat}\n\n（当前无 RSS 数据，请基于训练知识补充近期同类新闻，标注来源）\n\n"
+            continue
         user_msg += f"## {cat}\n\n"
         for i, item in enumerate(items, 1):
             summary = (item["summary"] or "")[:200]
@@ -283,9 +328,9 @@ def generate_report_from_rss(articles: dict[str, list[dict]], date_obj: datetime
             user_msg += f"- 来源：{item['source']}\n"
             user_msg += f"- 链接：{item['link']}\n\n"
 
-    if len(user_msg) > 12000:
-        user_msg = user_msg[:12000] + "\n\n（内容已截断，请基于以上信息完成晚报）"
-        print("  ⚠️  内容过长，已截断至 12000 字符")
+    if len(user_msg) > 14000:
+        user_msg = user_msg[:14000] + "\n\n（内容已截断，请基于以上信息完成三板块晚报）"
+        print("  ⚠️  内容过长，已截断至 14000 字符")
 
     return call_llm(system_prompt, user_msg, label="Step 2 中文写作")
 
@@ -303,21 +348,31 @@ NORMALIZE_SYSTEM = """\
   "highlights": ["今日看点第1条（20字以内）", "今日看点第2条", "今日看点第3条"],
   "categories": [
     {
-      "title": "分类名称（如：综合新闻 / AI技术产业动态）",
-      "items": [
-        {
-          "title": "条目标题（25字以内）",
-          "summary": "摘要正文（1-2句，80字以内）",
-          "comment": "点评内容（去掉📌前缀，1-2句，70字以内）",
-          "source": "来源媒体名称",
-          "link": "原文链接（原样保留，没有则为空字符串）"
-        }
-      ]
+      "title": "AI技术/产业动态",
+      "items": [...]
+    },
+    {
+      "title": "国际综合新闻",
+      "items": [...]
+    },
+    {
+      "title": "国内综合新闻",
+      "items": [...]
     }
   ]
 }
 
+每个 item 的结构：
+{
+  "title": "条目标题（25字以内）",
+  "summary": "摘要正文（1-2句，80字以内）",
+  "comment": "点评内容（去掉📌前缀，1-2句，70字以内）",
+  "source": "来源媒体名称",
+  "link": "原文链接（原样保留，没有则为空字符串）"
+}
+
 规则：
+- categories 必须严格按顺序包含三个板块：AI技术/产业动态、国际综合新闻、国内综合新闻
 - highlights 从文中"今日看点"提取 2-3 条；若无，从最重要内容自行总结
 - link 字段必须与原文中的链接完全一致，不得修改或捏造
 - 每类最多保留 5 条
@@ -445,7 +500,7 @@ def call_llm(system: str, user: str, label: str = "") -> Optional[str]:
 # ---------------------------------------------------------------------------
 
 def extract_tags(data: dict) -> list[str]:
-    """从 JSON 内容中提取 AI 相关关键词作为 Hugo 标签"""
+    """从 JSON 内容中提取相关关键词作为 Hugo 标签"""
     tag_candidates = [
         "OpenAI", "ChatGPT", "Claude", "Gemini", "DeepSeek", "Grok",
         "NVIDIA", "Meta AI", "Google DeepMind", "Anthropic", "xAI",
@@ -459,6 +514,14 @@ def extract_tags(data: dict) -> list[str]:
         if len(found) >= 6:
             break
     return found
+
+
+# 分类标题对应的 Emoji
+CATEGORY_EMOJI = {
+    CATEGORY_AI:       "🤖",
+    CATEGORY_INTL:     "🌍",
+    CATEGORY_DOMESTIC: "🇨🇳",
+}
 
 
 def render_markdown(date_obj: datetime.date, data: dict) -> str:
@@ -503,8 +566,10 @@ def render_markdown(date_obj: datetime.date, data: dict) -> str:
 
     zh_nums = ["一", "二", "三", "四", "五", "六"]
     for idx, cat in enumerate(categories):
-        num = zh_nums[idx] if idx < len(zh_nums) else str(idx + 1)
-        body += f"### {num}、 {cat.get('title', '资讯')}\n\n"
+        cat_title = cat.get("title", "资讯")
+        emoji     = CATEGORY_EMOJI.get(cat_title, "📰")
+        num       = zh_nums[idx] if idx < len(zh_nums) else str(idx + 1)
+        body += f"## {num}、{emoji} {cat_title}\n\n"
         for j, item in enumerate(cat.get("items", []), 1):
             title   = item.get("title",   "")
             summary = item.get("summary", "")
@@ -512,7 +577,7 @@ def render_markdown(date_obj: datetime.date, data: dict) -> str:
             link    = item.get("link",    "").strip()
             source  = item.get("source",  "原文")
 
-            body += f"#### {j}. {title}\n"
+            body += f"### {j}. {title}\n"
             if summary:
                 body += f"{summary}\n\n"
             if comment:
@@ -528,7 +593,7 @@ def render_markdown(date_obj: datetime.date, data: dict) -> str:
 
 
 def render_markdown_fallback(date_obj: datetime.date, raw_content: str) -> str:
-    """Step 3 失败时的兜底方案：将原始 Markdown 套入 front matter 输出"""
+    """Step 3 失败时的兜底：将原始 Markdown 套入 front matter 输出"""
     date_str  = date_obj.strftime("%Y年%-m月%-d日")
     date_iso  = date_obj.strftime("%Y-%m-%dT18:00:00+08:00")
     file_date = date_obj.strftime("%Y-%m-%d")
@@ -576,20 +641,18 @@ def main():
         sys.exit(1)
 
     # ── Step 1：RSS 采集 ───────────────────────────────────────────
-    print("\n📡 Step 1：抓取 RSS 新闻...")
+    print("\n📡 Step 1：抓取 RSS 新闻（三个分类）...")
     articles = fetch_rss_articles(max_age_hours=36)
 
     total = sum(len(v) for v in articles.values())
-    if total == 0:
-        print("  ⚠️  RSS 抓取无结果，请检查网络连接")
-        sys.exit(1)
-
     print(f"\n  ✅ 共抓取 {total} 条")
-    for cat, items in articles.items():
-        print(f"     {cat}: {len(items)} 条")
+    for cat in CATEGORY_ORDER:
+        n = len(articles.get(cat, []))
+        status = f"{n} 条" if n > 0 else "0 条（将由 DeepSeek 基于训练知识补充）"
+        print(f"     {cat}: {status}")
 
     # ── Step 2：中文写作 ──────────────────────────────────────────
-    print("\n✍️  Step 2：中文写作（遵循 prompt.md 风格）...")
+    print("\n✍️  Step 2：中文写作（三板块）...")
     raw_content = generate_report_from_rss(articles, date_beijing)
 
     if not raw_content:
@@ -603,7 +666,8 @@ def main():
     normalized = normalize_to_json(raw_content)
 
     if normalized:
-        print("  ✅ 标准化成功")
+        cats = normalized.get("categories", [])
+        print(f"  ✅ 标准化成功（{len(cats)} 个分类）")
         markdown_content = render_markdown(date_beijing, normalized)
     else:
         print("  ⚠️  标准化失败，使用原文兜底方案")

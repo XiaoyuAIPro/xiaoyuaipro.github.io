@@ -36,16 +36,17 @@
 每日晚报由四个步骤自动完成：
 
 ```
-Step 1 — RSS 采集
-  从 BBC、Guardian、CNN、TechCrunch、VentureBeat 等抓取当日新闻
-  综合热点 + AI 动态，每条均保留真实可点击的原文链接
+Step 1 — RSS 采集（三分类）
+  🤖 AI技术/产业动态  → TechCrunch / VentureBeat / MIT TR / The Verge 等
+  🌍 国际综合新闻     → BBC / The Guardian / Al Jazeera / CNN 等
+  🇨🇳 国内综合新闻    → China Daily / SCMP / 财新 / 36氪 / 虎嗅 等
 
 Step 2 — DeepSeek 中文写作
-  将 RSS 原文 + scripts/prompt.md 风格要求发给 DeepSeek
-  生成符合 prompt 要求的高质量中文晚报（综合新闻5条 + AI动态5条）
+  将三分类 RSS 原文 + scripts/prompt.md 风格要求发给 DeepSeek
+  生成：AI动态5条 + 国际新闻5条 + 国内新闻5条，每条含摘要+点评+链接
 
 Step 3 — 格式标准化
-  DeepSeek 将正文转为严格 JSON，保证每次格式一致
+  DeepSeek 将正文转为严格 JSON（三个 category 对象），保证格式一致
 
 Step 4 — Hugo 渲染
   JSON 渲染为 Hugo Markdown 文件，自动 push 触发站点部署
@@ -118,9 +119,10 @@ python scripts/test_api.py --deepseek sk-xxxxxxxxxxxxxxxx
 
 编辑 `scripts/prompt.md` 即可控制晚报的内容结构和写作风格，无需改动代码。
 
-当前配置：
-- 综合新闻 5 条：全球政治、经济、社会热点
-- AI 技术/产业动态 5 条：模型、投融资、政策、算力等
+当前配置（三板块，共 15 条）：
+- 🤖 AI技术/产业动态 5 条：模型迭代、技术突破、政策监管、算力等
+- 🌍 国际综合新闻 5 条：全球政治、经济、军事、社会热点
+- 🇨🇳 国内综合新闻 5 条：中国政策、经济、科技产业、社会民生
 - 每条包含：标题 + 摘要（1-2句）+ 📌点评 + 🔗真实来源链接
 
 ---
@@ -129,16 +131,23 @@ python scripts/test_api.py --deepseek sk-xxxxxxxxxxxxxxxx
 
 | 来源 | 类型 |
 |---|---|
-| BBC World | 综合新闻 |
-| The Guardian World | 综合新闻 |
-| CNN World | 综合新闻 |
-| Al Jazeera | 综合新闻 |
-| TechCrunch AI | AI 产业动态 |
-| VentureBeat AI | AI 创业投融资 |
-| The Verge AI | 科技消费 |
-| MIT Technology Review | AI 学术/深度 |
-| AI News | AI 综合资讯 |
-| Hacker News（AI 话题） | 开发者社区 |
+| TechCrunch AI | 🤖 AI 产业动态 |
+| VentureBeat AI | 🤖 AI 创业投融资 |
+| The Verge AI | 🤖 AI 科技消费 |
+| MIT Technology Review | 🤖 AI 学术/深度 |
+| AI News | 🤖 AI 综合资讯 |
+| Hacker News（AI 话题） | 🤖 AI 开发者社区 |
+| BBC World | 🌍 国际综合新闻 |
+| The Guardian World | 🌍 国际综合新闻 |
+| Al Jazeera | 🌍 国际综合新闻 |
+| CNN World | 🌍 国际综合新闻 |
+| China Daily | 🇨🇳 国内综合新闻 |
+| SCMP China | 🇨🇳 国内综合新闻 |
+| Caixin Global（财新） | 🇨🇳 国内财经 |
+| 36氪 | 🇨🇳 国内科技创业 |
+| 虎嗅 | 🇨🇳 国内商业科技 |
+
+> **注意**：国内新闻源从 GitHub Actions 海外服务器访问时，部分可能因网络限制而失败。脚本会自动跳过失败的源；若国内数据不足，DeepSeek 会基于训练知识补充近期同类新闻。
 
 ---
 
