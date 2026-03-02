@@ -1,0 +1,74 @@
+baseURL = 'https://xiaoyuaipro.github.io/'
+languageCode = 'zh-cn'
+title = '小宇AI | 智启未来'
+theme = "PaperMod"
+
+[params]
+    env = "production"
+    title = "小宇AI"
+    description = "探索 AI 的无限可能 | 每日 AI 晚报"
+    author = "小宇"
+    # 默认开启深色模式，增强科技感
+    defaultTheme = "dark"
+    # 显示代码复制按钮
+    ShowCodeCopyButtons = true
+    # 显示文章目录
+    ShowToc = true
+    # 开启面包屑导航
+    ShowBreadCrumbs = true
+    # 显示阅读时长
+    ShowReadingTime = true
+    # 社交链接
+    SocialButtons = true
+
+    # 首页配置
+    [params.profileMode]
+        enabled = true
+        title = "小宇AI晚报"
+        subtitle = "🤖 每天三分钟，同步全球 AI 最前沿资讯 | 智启未来，始于今日"
+        displayFullContent = false
+        imageUrl = "https://img.icons8.com/fluency/240/artificial-intelligence.png"
+        imageWidth = 120
+        imageHeight = 120
+        [[params.profileMode.buttons]]
+            name = "查看今日晚报"
+            url = "posts"
+        [[params.profileMode.buttons]]
+            name = "关于我"
+            url = "about"
+
+    # 社交账号图标
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/xiaoyuaipro"
+    [[params.socialIcons]]
+        name = "twitter"
+        url = "https://x.com/xiaoyuaipro"
+    [[params.socialIcons]]
+        name = "rss"
+        url = "index.xml"
+
+# 导航栏配置
+[[menu.main]]
+    identifier = "posts"
+    name = "晚报"
+    url = "/posts/"
+    weight = 10
+[[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 20
+[[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    url = "/search/"
+    weight = 30
+[[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 40
+
+[outputs]
+    home = ["HTML", "RSS", "JSON"] # 搜索功能需要 JSON 输出
