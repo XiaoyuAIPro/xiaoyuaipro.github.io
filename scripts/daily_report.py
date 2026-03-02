@@ -57,8 +57,9 @@ PROJECT_ROOT = Path(__file__).parent.parent
 CONTENT_DIR  = PROJECT_ROOT / "content" / "posts"
 PROMPT_FILE  = Path(__file__).parent / "prompt.md"   # scripts/prompt.md
 
-DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
-DEFAULT_CLAUDE_MODEL   = "claude-3-5-sonnet-20241022"
+DEFAULT_DEEPSEEK_MODEL    = "deepseek-chat"
+DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+DEFAULT_CLAUDE_MODEL      = "claude-3-5-sonnet-20241022"
 
 # ---------------------------------------------------------------------------
 # RSS 数据源（保证链接真实性）
@@ -220,10 +221,11 @@ def load_style_guidelines() -> str:
     """读取 scripts/prompt.md 中的风格要求（去掉执行指令，只保留规范说明）"""
     if PROMPT_FILE.exists():
         raw = PROMPT_FILE.read_text(encoding="utf-8").strip()
-        # 去掉"现在开始执行"等行动指令，只保留风格/格式要求
         raw = re.sub(r"(现在开始执行[。.]?\s*)$", "", raw.strip())
         raw = re.sub(r"## 四、执行流程.*", "", raw, flags=re.DOTALL).strip()
+        print(f"    ✅ prompt.md 已加载（{len(raw)} 字符）")
         return raw
+    print("    ⚠️  未找到 scripts/prompt.md，使用默认风格")
     return "请以简洁专业的风格生成内容，每条包含标题、摘要和点评。"
 
 
@@ -250,18 +252,25 @@ def generate_report_from_rss(articles: dict[str, list[dict]], date_obj: datetime
     style = load_style_guidelines()
     system_prompt = WRITING_SYSTEM_TEMPLATE.format(style_guidelines=style)
 
-    # 构建文章列表（传给 LLM 的输入）
     date_str = date_obj.strftime("%Y年%-m月%-d日")
     articles_text = f"今天是 {date_str}。以下是今日采集的真实新闻，请据此撰写晚报：\n\n"
 
     for cat, items in articles.items():
         articles_text += f"## {cat}\n\n"
         for i, item in enumerate(items, 1):
+            # 摘要截短，避免单条过长
+            summary = item['summary'][:200] if item['summary'] else ""
             articles_text += f"### 原文 {i}\n"
             articles_text += f"- 标题：{item['title']}\n"
-            articles_text += f"- 摘要：{item['summary']}\n"
+            articles_text += f"- 摘要：{summary}\n"
             articles_text += f"- 来源：{item['source']}\n"
             articles_text += f"- 链接：{item['link']}\n\n"
+
+    # 安全检查：若总字符数超过 12000，截断多余内容
+    MAX_USER_CHARS = 12000
+    if len(articles_text) > MAX_USER_CHARS:
+        articles_text = articles_text[:MAX_USER_CHARS] + "\n\n（以上为截断内容，请基于已有信息完成晚报）"
+        print(f"  ⚠️  文章内容过长，已截断至 {MAX_USER_CHARS} 字符")
 
     return call_llm(system_prompt, articles_text, label="Step 2 中文写作")
 
@@ -327,17 +336,21 @@ def normalize_to_json(raw_content: str) -> Optional[dict]:
 # ---------------------------------------------------------------------------
 
 def _call_deepseek(api_key: str, model: str, system: str, user: str) -> Optional[str]:
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    payload = {
+    base_url = os.environ.get("DEEPSEEK_BASE_URL", DEFAULT_DEEPSEEK_BASE_URL).rstrip("/")
+    headers  = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    payload  = {
         "model": model, "max_tokens": 4096, "temperature": 0.7,
         "messages": [
             {"role": "system", "content": system},
             {"role": "user",   "content": user},
         ],
     }
+    print(f"    📏 System: {len(system)} 字符 | User: {len(user)} 字符")
     with httpx.Client(timeout=120) as c:
-        resp = c.post("https://api.deepseek.com/chat/completions", headers=headers, json=payload)
-        resp.raise_for_status()
+        resp = c.post(f"{base_url}/chat/completions", headers=headers, json=payload)
+        if not resp.is_success:
+            print(f"    ❌ HTTP {resp.status_code}，响应体：{resp.text[:500]}")
+            resp.raise_for_status()
     data  = resp.json()
     usage = data.get("usage", {})
     print(f"    📊 Token: 输入 {usage.get('prompt_tokens',0)} + 输出 {usage.get('completion_tokens',0)}")
@@ -385,13 +398,14 @@ def call_llm(system: str, user: str, label: str = "") -> Optional[str]:
 
     providers = []
     if ds_key:
-        model = os.environ.get("DEEPSEEK_MODEL", DEFAULT_DEEPSEEK_MODEL)
-        providers.append((f"DeepSeek ({model})", lambda: _call_deepseek(ds_key, model, system, user)))
+        ds_model = os.environ.get("DEEPSEEK_MODEL", DEFAULT_DEEPSEEK_MODEL)
+        # 用默认参数捕获当前值，避免 lambda 闭包延迟绑定 bug
+        providers.append((f"DeepSeek ({ds_model})", lambda m=ds_model: _call_deepseek(ds_key, m, system, user)))
     if an_key:
-        model = os.environ.get("CLAUDE_MODEL", DEFAULT_CLAUDE_MODEL)
-        providers.append((f"Claude ({model})", lambda: _call_claude(an_key, model, system, user)))
+        cl_model = os.environ.get("CLAUDE_MODEL", DEFAULT_CLAUDE_MODEL)
+        providers.append((f"Claude ({cl_model})", lambda m=cl_model: _call_claude(an_key, m, system, user)))
     if gm_key:
-        providers.append(("Gemini", lambda: _call_gemini(gm_key, system, user)))
+        providers.append(("Gemini", lambda s=system, u=user: _call_gemini(gm_key, s, u)))
 
     for name, fn in providers:
         print(f"  🤖 {label} → {name}")
