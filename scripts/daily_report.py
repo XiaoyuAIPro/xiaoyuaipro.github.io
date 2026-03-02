@@ -297,6 +297,7 @@ def render_markdown_with_gemini(
         title: "🤖 每日AI晚报 ｜ {date_str}"
         date: {date_iso}
         draft: false
+        slug: "{file_date}"
         description: "{desc}"
         summary: "{desc}"
         tags: {tags_yaml}
@@ -360,6 +361,7 @@ def render_markdown_pure_rss(
         title: "🤖 每日AI晚报 ｜ {date_str}"
         date: {date_iso}
         draft: false
+        slug: "{file_date}"
         description: "{desc}"
         summary: "{desc}"
         tags: {tags_yaml}
