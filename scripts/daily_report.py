@@ -4,15 +4,19 @@
 ============================
 功能：
   - 从多个 AI/科技领域的 RSS 源抓取当日最新资讯
-  - 支持两种模式：
-      1. 纯 RSS 模式：完全免费，无需任何 API Key
-      2. RSS + Gemini 模式：使用 Gemini 免费 API（每日 1500 次免费额度）
-         生成高质量中文摘要与专业点评
+  - 支持三种模式（按优先级自动选择）：
+      1. Claude 模式（推荐）：使用 Anthropic Claude API，写作质量最高
+         需设置环境变量 ANTHROPIC_API_KEY
+         模型默认 claude-3-5-sonnet-20241022，可通过 CLAUDE_MODEL 覆盖
+      2. Gemini 模式：使用 Gemini 免费 API（每日 1500 次免费额度）
+         需设置环境变量 GEMINI_API_KEY
+      3. 纯 RSS 模式：完全免费，无需任何 API Key，直接聚合英文原文
   - 自动生成 Hugo Markdown 文件，输出到 content/posts/
 
 使用方法：
-  - 纯 RSS 模式:  python scripts/daily_report.py
+  - Claude 模式:  ANTHROPIC_API_KEY=your_key python scripts/daily_report.py
   - Gemini 模式:  GEMINI_API_KEY=your_key python scripts/daily_report.py
+  - 纯 RSS 模式:  python scripts/daily_report.py
 """
 
 import os
@@ -192,42 +196,147 @@ def fetch_rss_articles(max_age_hours: int = 36) -> dict[str, list[dict]]:
 
 
 # ---------------------------------------------------------------------------
-# Gemini API 模式（可选，免费额度 1500 次/天）
+# LLM 调用层（Claude / Gemini，共用同一份 Prompt 和渲染逻辑）
 # ---------------------------------------------------------------------------
 
-GEMINI_SYSTEM_PROMPT = """你是一位专业的 AI 领域分析师，负责撰写每日 AI 晚报。
-你的读者是对 AI 感兴趣的互联网从业者和投资人，文风应当专业、简洁、有洞见。
+LLM_SYSTEM_PROMPT = """你是一位专业的 AI 领域分析师，负责撰写每日 AI 晚报。
+你的读者是对 AI 感兴趣的互联网从业者和投资人，文风应当专业、简洁、有独到见解。
 
-任务：根据下方提供的原始英文新闻列表，生成一篇高质量的中文 AI 晚报内容。
+任务：根据下方提供的英文新闻列表，生成一篇高质量的中文 AI 晚报。
 
 格式要求（严格遵守）：
-1. 整体返回一个 JSON 对象
+1. 整体只返回一个合法的 JSON 对象，不要有任何额外文字
 2. JSON 结构如下：
 {
-  "summary": "三句话今日看点（每句话用✅开头）",
+  "summary": "三句话今日看点，每句以✅开头，凝练有力",
   "categories": [
     {
-      "title": "分类标题",
+      "title": "分类标题（如：AI技术动态 / 产业与资本 / 全球科技）",
       "items": [
         {
-          "title": "中文标题（20字以内，精炼）",
-          "body": "正文（2-3句话，80字以内）",
-          "comment": "专业点评（1-2句话，60字以内，要有独到见解）",
-          "link": "原始链接"
+          "title": "中文标题（20字以内，精炼准确）",
+          "body": "正文（2-3句话，100字以内，客观陈述核心事实）",
+          "comment": "专业点评（2句话，80字以内，要有产业或技术视角的独到见解）",
+          "source": "来源媒体名称",
+          "link": "原始链接（原样保留，不得修改）"
         }
       ]
     }
   ]
 }
-3. 不要修改 link 字段的值，直接使用原始链接
-4. 只返回 JSON，不要有任何额外说明
+3. link 字段必须原样保留，不得修改或省略
+4. 只返回 JSON，不要包含 markdown 代码块标记
 """
+
+# DeepSeek 默认模型，可通过环境变量 DEEPSEEK_MODEL 覆盖
+# 可选值: deepseek-chat（DeepSeek-V3，速度快、价格低，推荐）
+#         deepseek-reasoner（DeepSeek-R1，深度推理，适合复杂分析）
+DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
+
+# Claude 默认模型，可通过环境变量 CLAUDE_MODEL 覆盖
+DEFAULT_CLAUDE_MODEL = "claude-3-5-sonnet-20241022"
+
+
+def call_deepseek(api_key: str, articles_json: str) -> Optional[dict]:
+    """调用 DeepSeek API 生成中文晚报内容（OpenAI 兼容格式）"""
+    if httpx is None:
+        print("  ⚠️  缺少 httpx 库。安装: pip install httpx")
+        return None
+
+    model = os.environ.get("DEEPSEEK_MODEL", DEFAULT_DEEPSEEK_MODEL)
+    print(f"  🤖 使用模型: {model}")
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": model,
+        "max_tokens": 4096,
+        "temperature": 0.7,
+        "messages": [
+            {"role": "system", "content": LLM_SYSTEM_PROMPT},
+            {"role": "user",   "content": articles_json},
+        ],
+    }
+
+    try:
+        with httpx.Client(timeout=120) as client:
+            resp = client.post(
+                "https://api.deepseek.com/chat/completions",
+                headers=headers,
+                json=payload,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+
+        raw_text = data["choices"][0]["message"]["content"].strip()
+        usage = data.get("usage", {})
+        print(f"  📊 Token 消耗: 输入 {usage.get('prompt_tokens',0)} + 输出 {usage.get('completion_tokens',0)}")
+
+        match = re.search(r"```(?:json)?\s*(.*?)\s*```", raw_text, re.DOTALL)
+        if match:
+            raw_text = match.group(1)
+        return json.loads(raw_text)
+
+    except Exception as e:
+        print(f"  ❌ DeepSeek API 调用失败: {e}")
+        traceback.print_exc()
+        return None
+
+
+def call_claude(api_key: str, articles_json: str) -> Optional[dict]:
+    """调用 Anthropic Claude API 生成中文晚报内容"""
+    if httpx is None:
+        print("  ⚠️  缺少 httpx 库。安装: pip install httpx")
+        return None
+
+    model = os.environ.get("CLAUDE_MODEL", DEFAULT_CLAUDE_MODEL)
+    print(f"  🤖 使用模型: {model}")
+
+    headers = {
+        "x-api-key": api_key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+    }
+
+    payload = {
+        "model": model,
+        "max_tokens": 4096,
+        "temperature": 0.7,
+        "system": LLM_SYSTEM_PROMPT,
+        "messages": [
+            {"role": "user", "content": articles_json}
+        ],
+    }
+
+    try:
+        with httpx.Client(timeout=120) as client:
+            resp = client.post(
+                "https://api.anthropic.com/v1/messages",
+                headers=headers,
+                json=payload,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+
+        raw_text = data["content"][0]["text"].strip()
+        # 移除可能的 markdown 代码块包裹
+        match = re.search(r"```(?:json)?\s*(.*?)\s*```", raw_text, re.DOTALL)
+        if match:
+            raw_text = match.group(1)
+        return json.loads(raw_text)
+
+    except Exception as e:
+        print(f"  ❌ Claude API 调用失败: {e}")
+        traceback.print_exc()
+        return None
 
 
 def call_gemini(api_key: str, articles_json: str) -> Optional[dict]:
-    """调用 Gemini API 生成中文晚报内容"""
+    """调用 Gemini API 生成中文晚报内容（备用）"""
     if httpx is None:
-        print("  ⚠️  缺少 httpx 库，跳过 Gemini 模式。安装: pip install httpx")
+        print("  ⚠️  缺少 httpx 库。安装: pip install httpx")
         return None
 
     url = (
@@ -237,7 +346,7 @@ def call_gemini(api_key: str, articles_json: str) -> Optional[dict]:
     )
 
     payload = {
-        "system_instruction": {"parts": [{"text": GEMINI_SYSTEM_PROMPT}]},
+        "system_instruction": {"parts": [{"text": LLM_SYSTEM_PROMPT}]},
         "contents": [{"parts": [{"text": articles_json}]}],
         "generationConfig": {
             "temperature": 0.7,
@@ -251,9 +360,8 @@ def call_gemini(api_key: str, articles_json: str) -> Optional[dict]:
             resp.raise_for_status()
             data = resp.json()
 
-        raw_text = data["candidates"][0]["content"]["parts"][0]["text"]
-        # 如果响应被包裹在 ```json``` 中，需要提取
-        match = re.search(r"```json\s*(.*?)\s*```", raw_text, re.DOTALL)
+        raw_text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        match = re.search(r"```(?:json)?\s*(.*?)\s*```", raw_text, re.DOTALL)
         if match:
             raw_text = match.group(1)
         return json.loads(raw_text)
@@ -268,12 +376,14 @@ def call_gemini(api_key: str, articles_json: str) -> Optional[dict]:
 # Markdown 生成
 # ---------------------------------------------------------------------------
 
-def render_markdown_with_gemini(
+def render_markdown_with_llm(
     date_obj: datetime.date,
-    gemini_result: dict,
+    llm_result: dict,
     raw_articles: dict[str, list[dict]],
 ) -> str:
-    """使用 Gemini 返回的结构化数据渲染 Markdown（高质量模式）"""
+    """使用 LLM（Claude/Gemini）返回的结构化数据渲染 Markdown"""
+    # 兼容旧调用（曾用 gemini_result 参数名）
+    gemini_result = llm_result
     date_str = date_obj.strftime("%Y年%m月%d日")
     date_iso = date_obj.strftime("%Y-%m-%dT18:00:00+08:00")
     file_date = date_obj.strftime("%Y-%m-%d")
@@ -434,36 +544,53 @@ def main():
     for cat, items in articles.items():
         print(f"   - {cat}: {len(items)} 篇")
 
-    # Step 2: 决定使用哪种模式
-    gemini_api_key = os.environ.get("GEMINI_API_KEY", "").strip()
-    markdown_content = ""
+    # Step 2: 按优先级选择生成模式
+    #   优先级: DEEPSEEK_API_KEY > ANTHROPIC_API_KEY > GEMINI_API_KEY > 纯 RSS
+    deepseek_api_key  = os.environ.get("DEEPSEEK_API_KEY",  "").strip()
+    anthropic_api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    gemini_api_key    = os.environ.get("GEMINI_API_KEY",    "").strip()
+    markdown_content  = ""
 
-    if gemini_api_key:
-        print(f"\n🤖 Step 2: 检测到 GEMINI_API_KEY，使用 Gemini 智能分析模式...")
+    # 将文章序列化为 JSON，供 LLM 使用
+    articles_for_llm = []
+    for cat, items in articles.items():
+        for item in items:
+            articles_for_llm.append({
+                "category": cat,
+                "title": item["title"],
+                "summary": item["summary"],
+                "source": item["source"],
+                "link": item["link"],
+            })
+    articles_json = json.dumps(articles_for_llm, ensure_ascii=False, indent=2)
 
-        # 将文章序列化为 JSON 传给 Gemini
-        articles_for_gemini = []
-        for cat, items in articles.items():
-            for item in items:
-                articles_for_gemini.append({
-                    "category": cat,
-                    "title": item["title"],
-                    "summary": item["summary"],
-                    "source": item["source"],
-                    "link": item["link"],
-                })
+    # 按优先级逐级尝试，失败则自动降级
+    llm_result = None
+    if deepseek_api_key:
+        print("\n🚀 Step 2: 检测到 DEEPSEEK_API_KEY，使用 DeepSeek 写作模式...")
+        llm_result = call_deepseek(deepseek_api_key, articles_json)
+        if llm_result:
+            print("  ✅ DeepSeek 生成成功")
 
-        articles_json = json.dumps(articles_for_gemini, ensure_ascii=False, indent=2)
-        gemini_result = call_gemini(gemini_api_key, articles_json)
+    if not llm_result and anthropic_api_key:
+        print("\n✨ Step 2: 使用 Claude 备用模式...")
+        llm_result = call_claude(anthropic_api_key, articles_json)
+        if llm_result:
+            print("  ✅ Claude 生成成功")
 
-        if gemini_result:
-            print("  ✅ Gemini 生成成功，使用高质量中文分析版本")
-            markdown_content = render_markdown_with_gemini(date_beijing, gemini_result, articles)
-        else:
-            print("  ⚠️  Gemini 失败，回退到纯 RSS 模式")
-            markdown_content = render_markdown_pure_rss(date_beijing, articles)
+    if not llm_result and gemini_api_key:
+        print("\n🤖 Step 2: 使用 Gemini 备用模式...")
+        llm_result = call_gemini(gemini_api_key, articles_json)
+        if llm_result:
+            print("  ✅ Gemini 生成成功")
+
+    if llm_result:
+        markdown_content = render_markdown_with_llm(date_beijing, llm_result, articles)
     else:
-        print("\n📋 Step 2: 未设置 GEMINI_API_KEY，使用纯 RSS 聚合模式（完全免费）")
+        if not any([deepseek_api_key, anthropic_api_key, gemini_api_key]):
+            print("\n📋 Step 2: 未设置任何 API Key，使用纯 RSS 聚合模式（完全免费）")
+        else:
+            print("\n⚠️  所有 LLM API 均失败，回退到纯 RSS 模式")
         markdown_content = render_markdown_pure_rss(date_beijing, articles)
 
     # Step 3: 写入文件
